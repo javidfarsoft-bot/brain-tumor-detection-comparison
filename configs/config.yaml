@@ -1,26 +1,31 @@
-# ============================================================
-# Central config — both detectors must read paths/splits/aug
-# from here so the comparison in Phase 5 stays fair.
-# ============================================================
-
 project:
   name: "brain-tumor-detection-comparison"
   seed: 42
 
 dataset:
   kaggle_id: "ahmedsorour1/mri-for-brain-tumor-with-bounding-boxes"
-  root_dir: "/content/dataset"          # where it's unzipped in Colab
-  images_dir: "images"
-  labels_dir: "labels"                   # YOLO-format .txt labels
-  # NOTE: brief says 5 classes, dataset actually has 4 — verify & document
-  class_names: ["glioma", "meningioma", "pituitary", "no_tumor"]  # confirm exact names after EDA
-  train_split: 0.7
-  val_split: 0.15
-  test_split: 0.15
+  raw_dir: "data/raw"            # original download: raw/{Train,Val}/{ClassName}/{images,labels}
+  yolo_dir: "data/yolo"          # unified split: yolo/{train,valid,test}/{images,labels}, class_id rewritten
+  coco_dir: "data/coco"          # converted format, used by Faster R-CNN
+
+  # Confirmed from the actual Kaggle download: images/labels are split into
+  # per-class subfolders (Glioma, Meningioma, Pituitary, "No Tumor"). Every
+  # label .txt has class_id=0 — the real class comes from the folder name,
+  # rewritten during the raw -> yolo merge step (see src/data/merge_dataset.py).
+  class_names:
+    - Glioma
+    - Meningioma
+    - Pituitary
+    - "No Tumor"        # 4 classes total — brief mentions "five classes"; this dataset ships 4 (documented in report)
+
+  # Raw dataset only ships Train/Val (no Test split). merge_dataset.py
+  # re-splits ALL images 80/10/10, stratified per class, into data/yolo/{train,valid,test}.
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
   img_size: 640
 
 augmentation:
-  # Keep IDENTICAL between Faster R-CNN and YOLO runs
   horizontal_flip_p: 0.5
   rotate_limit: 10
   brightness_contrast_p: 0.2
@@ -34,6 +39,7 @@ training:
   batch_size: 16
   epochs: 100
   early_stopping_patience: 15
+  num_workers: 4
 
 fasterrcnn:
   backbone: "resnet50_fpn_v2"
@@ -42,7 +48,7 @@ fasterrcnn:
   nms_threshold: 0.5
 
 yolo:
-  variant: "yolov8m.pt"   # medium — adjust to GPU budget; try newer (v9/v10/v11) if available
+  variant: "yolov8m.pt"
   pretrained: true
 
 robustness:
@@ -56,8 +62,14 @@ robustness:
 explainability:
   method: "gradcam"
   target_layers_fasterrcnn: "backbone.body.layer4"
-  target_layers_yolo: "model.model[-2]"   # verify against actual ultralytics model graph
+  target_layers_yolo: "model.model[-2]"
+  num_samples_per_case: 5
 
 statistics:
   bootstrap_n_resamples: 10000
   alpha: 0.05
+
+paths:
+  results_dir: "results"
+  weights_dir: "outputs/weights"
+  logs_dir: "results/logs"

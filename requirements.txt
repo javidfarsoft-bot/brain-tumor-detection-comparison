@@ -1,0 +1,35 @@
+# Core
+torch>=2.1.0
+torchvision>=0.16.0
+ultralytics>=8.2.0        # YOLOv8 / newer
+
+# Data handling
+numpy
+pandas
+opencv-python
+Pillow
+pyyaml
+scikit-learn
+
+# Kaggle download
+kaggle
+
+# Metrics / evaluation
+pycocotools
+torchmetrics
+scipy
+statsmodels
+
+# Explainability
+grad-cam
+
+# Robustness / augmentation
+albumentations
+
+# Visualization
+matplotlib
+seaborn
+
+# Notebooks
+jupyter
+tqdm

@@ -1,0 +1,34 @@
+# Data & weights (too large for git, download/train instead)
+data/
+dataset/
+*.pt
+*.pth
+*.onnx
+outputs/weights/*
+!outputs/weights/.gitkeep
+
+# Kaggle credentials — NEVER commit this
+kaggle.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Logs / large artifacts
+results/logs/*
+!results/logs/.gitkeep
+runs/
+wandb/
+*.log
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Colab
+*.ipynb_checkpoints

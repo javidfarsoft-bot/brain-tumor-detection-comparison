@@ -1,0 +1,63 @@
+# ============================================================
+# Central config — both detectors must read paths/splits/aug
+# from here so the comparison in Phase 5 stays fair.
+# ============================================================
+
+project:
+  name: "brain-tumor-detection-comparison"
+  seed: 42
+
+dataset:
+  kaggle_id: "ahmedsorour1/mri-for-brain-tumor-with-bounding-boxes"
+  root_dir: "/content/dataset"          # where it's unzipped in Colab
+  images_dir: "images"
+  labels_dir: "labels"                   # YOLO-format .txt labels
+  # NOTE: brief says 5 classes, dataset actually has 4 — verify & document
+  class_names: ["glioma", "meningioma", "pituitary", "no_tumor"]  # confirm exact names after EDA
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  img_size: 640
+
+augmentation:
+  # Keep IDENTICAL between Faster R-CNN and YOLO runs
+  horizontal_flip_p: 0.5
+  rotate_limit: 10
+  brightness_contrast_p: 0.2
+  scale_range: [0.9, 1.1]
+
+training:
+  optimizer: "SGD"
+  lr: 0.005
+  momentum: 0.9
+  weight_decay: 0.0005
+  batch_size: 16
+  epochs: 100
+  early_stopping_patience: 15
+
+fasterrcnn:
+  backbone: "resnet50_fpn_v2"
+  pretrained: true
+  score_threshold: 0.5
+  nms_threshold: 0.5
+
+yolo:
+  variant: "yolov8m.pt"   # medium — adjust to GPU budget; try newer (v9/v10/v11) if available
+  pretrained: true
+
+robustness:
+  gaussian_blur_kernel: [5, 9]
+  motion_blur_kernel: 9
+  gaussian_noise_std: [10, 25]
+  salt_pepper_amount: 0.02
+  brightness_delta: [-40, 40]
+  jpeg_quality: [20, 50]
+
+explainability:
+  method: "gradcam"
+  target_layers_fasterrcnn: "backbone.body.layer4"
+  target_layers_yolo: "model.model[-2]"   # verify against actual ultralytics model graph
+
+statistics:
+  bootstrap_n_resamples: 10000
+  alpha: 0.05

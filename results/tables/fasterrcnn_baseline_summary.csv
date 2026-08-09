@@ -1,0 +1,2 @@
+Model,Best Epoch,Precision,Recall,mAP@0.5,mAP@0.5:0.95,Parameters (M),GFLOPs,FPS,Model size (MB)
+Faster R-CNN,14,0.8366,0.9526,0.9527,0.6711,43.27,280.81,7.15,329.69

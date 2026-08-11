@@ -1,12 +1,4 @@
-"""
-Merge the raw Kaggle download (per-class Train/Val subfolders, class_id
-always 0 inside each label file) into a single YOLO-format dataset with a
-proper 80/10/10 stratified train/valid/test split and correct class_ids.
-
-Usage:
-    python -m src.data.merge_dataset --src data/raw --dst data/yolo
-"""
-
+"""Merges the raw per-class Kaggle download into a unified, correctly-labeled YOLO train/valid/test split."""
 import argparse
 import random
 import shutil
@@ -66,7 +58,7 @@ def write_split(items, dst: Path, split_name: str):
         new_lines = []
         for line in lines:
             parts = line.split()
-            parts[0] = str(class_id)  # rewrite with the correct class id
+            parts[0] = str(class_id)
             new_lines.append(" ".join(parts))
         (lbl_out / f"{img_path.stem}.txt").write_text("\n".join(new_lines))
 

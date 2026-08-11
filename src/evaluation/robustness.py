@@ -1,4 +1,4 @@
-"""Generate corrupted copies of test images for robustness evaluation (Phase 6)."""
+"""Generates corrupted copies of test images for robustness evaluation (Phase 6)."""
 import cv2
 import numpy as np
 

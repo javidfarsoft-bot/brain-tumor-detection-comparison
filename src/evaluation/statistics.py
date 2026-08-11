@@ -1,10 +1,9 @@
-"""Statistical significance testing for Phase 8 (compare Faster R-CNN vs YOLO)."""
+"""Statistical significance tests comparing Faster R-CNN vs. YOLO (Phase 8)."""
 import numpy as np
 from scipy import stats
 
 
 def bootstrap_ci(values: np.ndarray, n_resamples: int = 10000, alpha: float = 0.05):
-    """95% (default) bootstrap confidence interval for the mean of `values`."""
     values = np.asarray(values)
     means = np.array([
         np.mean(np.random.choice(values, size=len(values), replace=True))
@@ -16,10 +15,6 @@ def bootstrap_ci(values: np.ndarray, n_resamples: int = 10000, alpha: float = 0.
 
 
 def paired_permutation_test(a: np.ndarray, b: np.ndarray, n_resamples: int = 10000):
-    """
-    Two-sided paired permutation test on per-image metric values
-    (e.g. per-image IoU for detector A vs detector B).
-    """
     a, b = np.asarray(a), np.asarray(b)
     observed_diff = np.mean(a - b)
     diffs = a - b
@@ -34,17 +29,11 @@ def paired_permutation_test(a: np.ndarray, b: np.ndarray, n_resamples: int = 100
 
 
 def wilcoxon_test(a: np.ndarray, b: np.ndarray):
-    """Wilcoxon signed-rank test for repeated measurements across images/runs."""
     stat, p = stats.wilcoxon(a, b)
     return stat, p
 
 
 def mcnemar_test(b: int, c: int):
-    """
-    McNemar's test for paired classification decisions on matched detections.
-    b: # cases correct under A, wrong under B
-    c: # cases wrong under A, correct under B
-    """
     from statsmodels.stats.contingency_tables import mcnemar
     table = [[0, b], [c, 0]]
     result = mcnemar(table, exact=(b + c < 25))
@@ -52,7 +41,6 @@ def mcnemar_test(b: int, c: int):
 
 
 def cohens_d(a: np.ndarray, b: np.ndarray):
-    """Effect size for paired/independent comparisons."""
     a, b = np.asarray(a), np.asarray(b)
     pooled_std = np.sqrt((np.std(a, ddof=1) ** 2 + np.std(b, ddof=1) ** 2) / 2)
     return (np.mean(a) - np.mean(b)) / pooled_std if pooled_std > 0 else 0.0

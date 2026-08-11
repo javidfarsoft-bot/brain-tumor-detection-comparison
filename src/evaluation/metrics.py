@@ -4,7 +4,6 @@ from torchmetrics.detection.mean_ap import MeanAveragePrecision
 
 
 def box_iou(box1, box2):
-    """box format: [x_min, y_min, x_max, y_max]"""
     x1 = max(box1[0], box2[0])
     y1 = max(box1[1], box2[1])
     x2 = min(box1[2], box2[2])
@@ -30,12 +29,6 @@ def precision_recall_f1(tp: int, fp: int, fn: int):
 
 
 def compute_map(preds: list, targets: list):
-    """
-    preds / targets: lists of dicts in torchmetrics format, e.g.
-      preds = [{"boxes": Tensor[N,4], "scores": Tensor[N], "labels": Tensor[N]}, ...]
-      targets = [{"boxes": Tensor[M,4], "labels": Tensor[M]}, ...]
-    Returns a dict with map, map_50, map_75, etc.
-    """
     metric = MeanAveragePrecision(iou_type="bbox")
     metric.update(preds, targets)
     return metric.compute()

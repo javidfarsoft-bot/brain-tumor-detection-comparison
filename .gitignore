@@ -1,0 +1,37 @@
+# Data & weights (too large for git, download/train instead)
+# NOTE: anchored to repo root only — do NOT remove the leading "/", or this
+# will also match and silently ignore src/data/ (a real bug we hit before).
+/data/
+/dataset/
+*.pt
+*.pth
+*.onnx
+outputs/weights/*
+!outputs/weights/.gitkeep
+!outputs/weights/*.pt
+
+# Kaggle credentials — NEVER commit this
+kaggle.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Logs / large artifacts
+results/logs/*
+!results/logs/.gitkeep
+runs/
+wandb/
+*.log
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Colab
+*.ipynb_checkpoints

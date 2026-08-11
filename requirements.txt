@@ -24,6 +24,10 @@ statsmodels
 grad-cam
 
 # Robustness / augmentation
+# NOTE: albumentations is installed as a transitive dependency of ultralytics,
+# but notebook 03 explicitly UNINSTALLS it before YOLO training so that its
+# default low-probability transforms (Blur/MedianBlur/ToGray/CLAHE) are
+# skipped, keeping augmentation equivalent to the Faster R-CNN pipeline.
 albumentations
 
 # Visualization

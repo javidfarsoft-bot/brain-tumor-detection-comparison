@@ -1,9 +1,14 @@
 """Thin wrapper around ultralytics YOLO so training calls stay config-driven
-and directly comparable to the Faster R-CNN run (same epochs/batch/optimizer)."""
+and directly comparable to the Faster R-CNN run (same epochs/batch/optimizer).
+
+Note: the actual Colab training run also disabled Ultralytics' extra default
+augmentations (mosaic, mixup, scale, translate, shear, perspective) and the
+albumentations package, and used AMP + validation-based early stopping — see
+notebooks/03_yolo_implementation.ipynb for the exact reproducible call."""
 from ultralytics import YOLO
 
 
-def build_yolo(variant: str = "yolov8m.pt"):
+def build_yolo(variant: str = "yolov8n.pt"):
     return YOLO(variant)
 
 

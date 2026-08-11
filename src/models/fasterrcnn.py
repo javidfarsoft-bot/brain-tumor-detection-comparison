@@ -1,4 +1,9 @@
-"""Faster R-CNN baseline builder (transfer learning on a torchvision backbone)."""
+"""Faster R-CNN baseline builder (transfer learning on a torchvision backbone).
+
+Note: the actual Colab training run also used box-aware augmentation
+(torchvision.transforms.v2), AMP, and validation-based (mAP@0.5) early
+stopping — see notebooks/02_baseline_fasterrcnn.ipynb for the exact
+reproducible training loop."""
 import torchvision
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 

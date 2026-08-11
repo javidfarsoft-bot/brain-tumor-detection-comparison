@@ -1,11 +1,14 @@
 # Data & weights (too large for git, download/train instead)
-data/
-dataset/
+# NOTE: anchored to repo root only — do NOT remove the leading "/", or this
+# will also match and silently ignore src/data/ (a real bug we hit before).
+/data/
+/dataset/
 *.pt
 *.pth
 *.onnx
 outputs/weights/*
 !outputs/weights/.gitkeep
+!outputs/weights/*.pt
 
 # Kaggle credentials — NEVER commit this
 kaggle.json

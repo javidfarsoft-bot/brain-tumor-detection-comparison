@@ -1,0 +1,2 @@
+Model,Best Epoch,Precision,Recall,mAP@0.5,mAP@0.5:0.95,Parameters (M),GFLOPs,FPS,Model size (MB)
+YOLOv8n,38,0.957,0.941,0.979,0.735,3.01,8.1,181.82,6.2

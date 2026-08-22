@@ -1,5 +1,5 @@
 Test,Metric,Statistic,p-value,Significant (α=0.05),Interpretation
-McNemar's Test,Detection correctness (binary),13.8846,0.0002,Yes,Faster R-CNN correct more often in discordant pairs (23 vs 3)
-Wilcoxon signed-rank,IoU (continuous),63172.0,0.0676,No (borderline),No significant difference in IoU distribution
-Paired Permutation,Mean IoU difference,-0.0174,0.0135,Yes,Faster R-CNN has slightly higher mean IoU
-Bootstrap 95% CI,Mean IoU difference,"[-0.0321, -0.0041]",N/A,Yes (CI excludes 0),"Faster R-CNN mean IoU is higher, small but consistent"
+McNemar's Test,Detection correctness (binary),5.2632,0.0218,Yes,Faster R-CNN correct more often in discordant pairs (15 vs 4)
+Wilcoxon signed-rank,IoU (continuous),55177.0,0.0000,Yes,Significant difference in IoU distribution (rank-based test)
+Paired Permutation,Mean IoU difference,-0.0097,0.1504,No,No significant difference in mean IoU
+Bootstrap 95% CI,Mean IoU difference,"[-0.0230, 0.0027]",N/A,No (CI includes 0),"Faster R-CNN mean IoU is higher on average, but difference is not robust (CI spans zero)"
